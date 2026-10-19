@@ -283,6 +283,9 @@ describe('auth.admin', () => {
     ['users.create', c => c.auth.admin.users.create({ email: 'a@b.co' }), {
       method: 'POST', path: '/admin/users', body: { email: 'a@b.co' },
     }],
+    ['users.create verified', c => c.auth.admin.users.create({ email: 'a@b.co', email_verified: true }), {
+      method: 'POST', path: '/admin/users', body: { email: 'a@b.co', email_verified: true },
+    }],
     ['users.list', c => c.auth.admin.users.list({ page: 1, is_banned: true }), {
       method: 'GET', path: '/admin/users', query: { page: '1', is_banned: 'true' },
     }],

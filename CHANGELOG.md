@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres
 to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `auth.admin.users.create` accepts `email_verified` and `phone_verified` to create a user with those credentials already verified; when every credential sent is verified, no confirmation is sent.
+
 ## [0.1.0] - 2026-10-16
 
 Initial release.

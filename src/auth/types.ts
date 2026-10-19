@@ -401,6 +401,8 @@ export interface AdminCreateUserParams {
   profile?: UserProfile
   password?: string
   metadata?: Record<string, string | number>
+  email_verified?: boolean
+  phone_verified?: boolean
 }
 
 export interface AdminUpdateUserParams {
