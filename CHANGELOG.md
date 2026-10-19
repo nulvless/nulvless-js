@@ -6,6 +6,18 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-10-19
+
+### Added
+
+- `User.password_enabled` tells whether the user has a password set, regardless of the sign-in methods enabled on the platform. Use it to choose between creating and changing a password.
+
+### Fixed
+
+- `Challenge.preferred` includes `'link'` and `Challenge.token` can be `null`, matching what the API returns when a confirmation link was sent.
+
+## [0.1.1] - 2026-10-19
+
 ### Added
 
 - `auth.admin.users.create` accepts `email_verified` and `phone_verified` to create a user with those credentials already verified; when every credential sent is verified, no confirmation is sent.

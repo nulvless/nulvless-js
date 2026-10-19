@@ -61,6 +61,7 @@ export interface User {
   last_sign_in_at?: string
   identities?: Identity[]
   metadata?: Record<string, string | number>
+  password_enabled?: boolean
   created_at?: string
   updated_at?: string
 }
@@ -142,14 +143,14 @@ export type ChallengeSubject =
 export type SudoMethod = 'totp' | 'email_otp' | 'sms_otp'
 
 export interface Challenge {
-  /** MFA method to present first to the user. */
-  preferred: MFAMethod
+  /** Method to present first to the user; `link` means a confirmation link was sent and there is no code to enter. */
+  preferred: MFAMethod | 'link'
   /** Masked identifier shown to the user — e.g. "u***@example.com". */
   identifier?: string
   factors: AuthMethod[]
   subject: ChallengeSubject
-  /** Short-lived token used to continue the challenge flow. */
-  token: string
+  /** Short-lived token used to continue the challenge flow; `null` when there is nothing to continue, as with a link. */
+  token: string | null
   expires_in: number
 }
 
