@@ -18,7 +18,7 @@ npm install @nulvless/nulvless-js
 
 ### Browser
 
-Create the client with your project URL and publishable key. The session is stored and renewed for you.
+Create the client with your project URL and publishable key. The session is stored and renewed for you. The project URL is `https://<project>.nulvless.co`, or your own [custom domain](https://nulvless.com/docs/guides/custom-domains) (e.g. `https://api.example.com`) on plans that include it.
 
 ```ts
 import { createClient } from '@nulvless/nulvless-js'

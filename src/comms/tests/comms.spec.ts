@@ -56,6 +56,6 @@ describe('comms', () => {
 
     await call(createServerClient('https://app.nulvless.co', 'sk_test'))
 
-    expectRequest(lastRequest(), '/notifications', expected)
+    expectRequest(lastRequest(), '/comms', expected)
   })
 })

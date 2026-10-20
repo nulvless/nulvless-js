@@ -62,7 +62,7 @@ describe('client wiring', () => {
     delete browserGlobals['localStorage']
   })
 
-  it('routes auth calls to /auth and comms calls to /notifications', async () => {
+  it('routes auth calls to /auth and comms calls to /comms', async () => {
     const { requests } = mockFetch()
     const client = createServerClient('https://app.nulvless.co/', 'sk_test')
 
@@ -71,7 +71,7 @@ describe('client wiring', () => {
 
     expect(requests.map(request => request.url.pathname)).toEqual([
       '/auth/lookup',
-      '/notifications/notifications/test/email',
+      '/comms/notifications/test/email',
     ])
     expect(requests.every(request => request.headers['x-platform-key'] === 'sk_test')).toBe(true)
   })

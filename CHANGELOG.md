@@ -6,6 +6,14 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-10-20
+
+### Fixed
+
+- `comms` calls from `createServerClient` go to `/comms`, the path the gateway serves. They were sent to `/notifications`, which the gateway does not route.
+
+## [0.1.4] - 2026-10-19
+
 ### Added
 
 - `ErrorCode` types every `error.code` the SDK can return, grouped as `SdkErrorCode`, `GatewayErrorCode`, `AuthErrorCode` and `CommsErrorCode`, so editors autocomplete them. Any other string is still accepted, so codes added later keep compiling. `EdgeFunctionErrorCode` lists the codes an edge function invocation answers with.

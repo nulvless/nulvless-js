@@ -59,6 +59,6 @@ export class NulvlessServerClient {
   constructor(baseUrl: string, privateKey: string, options?: ServerClientOptions) {
     const base = baseUrl.replace(/\/+$/, '')
     this.auth = new AuthServerClient(new HttpClient({ baseUrl: `${base}/auth`, apiKey: privateKey, ...options }))
-    this.comms = new CommsClient(new HttpClient({ baseUrl: `${base}/notifications`, apiKey: privateKey, ...options }))
+    this.comms = new CommsClient(new HttpClient({ baseUrl: `${base}/comms`, apiKey: privateKey, ...options }))
   }
 }
