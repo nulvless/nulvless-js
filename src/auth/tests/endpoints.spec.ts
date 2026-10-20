@@ -99,6 +99,11 @@ describe('auth.factors', () => {
     ['enroll without a name', c => c.auth.factors.enroll({ type: 'sms_otp' }, user), {
       method: 'POST', path: '/factors/sms_otp', body: {},
     }],
+    ['enroll an SMS factor on its own phone', c => c.auth.factors.enroll({
+      type: 'sms_otp', phone: { country_code: '+55', number: '11988887777' },
+    }, user), {
+      method: 'POST', path: '/factors/sms_otp', body: { phone: { country_code: '+55', number: '11988887777' } },
+    }],
     ['enable', c => c.auth.factors.enable({ token: 't', code: '123456' }, user), {
       method: 'POST', path: '/factors', body: { token: 't', code: '123456' },
     }],
@@ -181,10 +186,16 @@ describe('auth.security', () => {
 
 describe('auth.challenges', () => {
   run([
-    ['create', c => c.auth.challenges.create('totp', user), { method: 'POST', path: '/challenges/totp' }],
+    ['create', c => c.auth.challenges.create({ type: 'totp' }, user), { method: 'POST', path: '/challenges/totp' }],
+    ['create for an SMS factor', c => c.auth.challenges.create({ type: 'sms_otp', factor_id: 'f-2' }, user), {
+      method: 'POST', path: '/challenges/sms_otp', query: { factor_id: 'f-2' },
+    }],
     ['get', c => c.auth.challenges.get('t'), { method: 'GET', path: '/challenges', query: { token: 't' } }],
     ['change', c => c.auth.challenges.change({ token: 't', type: 'sms_otp' }), {
       method: 'PATCH', path: '/challenges/sms_otp', body: { token: 't' },
+    }],
+    ['change to an SMS factor', c => c.auth.challenges.change({ token: 't', type: 'sms_otp', factor_id: 'f-2' }), {
+      method: 'PATCH', path: '/challenges/sms_otp', body: { token: 't' }, query: { factor_id: 'f-2' },
     }],
     ['verify', c => c.auth.challenges.verify({ token: 't', code: '1' }), {
       method: 'POST', path: '/challenges/verify', body: { token: 't', code: '1' },
@@ -279,7 +290,6 @@ describe('auth.admin', () => {
   }
 
   run([
-    ['getPlatform', c => c.auth.admin.getPlatform(), { method: 'GET', path: '/admin/platform' }],
     ['users.create', c => c.auth.admin.users.create({ email: 'a@b.co' }), {
       method: 'POST', path: '/admin/users', body: { email: 'a@b.co' },
     }],

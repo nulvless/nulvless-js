@@ -18,8 +18,6 @@ import type {
 } from '../types'
 import { AuthSubClient } from '../base'
 
-// ─── OAuth Server — user grants ───────────────────────────────────────────────
-
 /**
  * Manages the OAuth apps the authenticated user has authorized
  * (`/user/oauth/grants`). Requires authentication (bearer token).
@@ -52,14 +50,11 @@ export class OAuthGrantsClient extends AuthSubClient {
   }
 }
 
-// ─── OAuth Server ──────────────────────────────────────────────────────────────
-
 /**
  * The project's OAuth 2.1 / OpenID Connect provider surface — the project
  * acting as an identity provider for third-party applications.
  *
- * Available with both public (`pk_`) and private (`sk_`) keys
- * (`@SetPlatformGuardRoles([PUBLIC, PRIVATE])`).
+ * Available with both public (`pk_`) and private (`sk_`) keys.
  *
  * Method scopes:
  * - `token`, `register` — platform key only (no bearer token).
@@ -79,8 +74,6 @@ export class OAuthClient extends AuthSubClient {
     super(http, getToken)
     this.grants = new OAuthGrantsClient(http, getToken)
   }
-
-  // ─── Authorization redirect (platform key) ──────────────────────────────────
 
   /**
    * Builds the OAuth authorization URL and, in the browser, redirects the user
@@ -130,8 +123,6 @@ export class OAuthClient extends AuthSubClient {
     return { data: { url: url.toString() }, error: null }
   }
 
-  // ─── Token endpoint (public) ────────────────────────────────────────────────
-
   /**
    * Exchanges an authorization code for tokens
    * (`POST /oauth/token`, `grant_type=authorization_code`).
@@ -169,8 +160,6 @@ export class OAuthClient extends AuthSubClient {
     )
   }
 
-  // ─── Dynamic registration (platform key) ────────────────────────────────────
-
   /**
    * Dynamically registers a new OAuth app (RFC 7591, `POST /oauth/register`).
    *
@@ -181,8 +170,6 @@ export class OAuthClient extends AuthSubClient {
     // Public endpoint (RFC 7591), gated server-side by config — no platform key.
     return this.http.post<OAuthApp>('/oauth/register', params, { ...options, skipApiKey: true })
   }
-
-  // ─── Consent flow (authenticated user) ──────────────────────────────────────
 
   /**
    * Loads a pending authorization for the consent screen
@@ -224,8 +211,6 @@ export class OAuthClient extends AuthSubClient {
     })
   }
 
-  // ─── UserInfo (authenticated user) ──────────────────────────────────────────
-
   /**
    * Returns OIDC UserInfo claims for the access token (`GET /oauth/userinfo`).
    *
@@ -241,8 +226,6 @@ export class OAuthClient extends AuthSubClient {
       headers: { ...options?.headers, ...auth.headers },
     })
   }
-
-  // ─── Public OIDC metadata (no auth) ─────────────────────────────────────────
 
   /**
    * Returns the OpenID Connect discovery document

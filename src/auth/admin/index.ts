@@ -11,7 +11,6 @@ import type {
   PaginateGrantsParams,
   PaginateUsersParams,
   Grant,
-  PlatformInfo,
   RegisterOAuthAppParams,
   Role,
   Session,
@@ -20,8 +19,6 @@ import type {
   UpdateRoleParams,
   User,
 } from '../types'
-
-// ─── Admin — Users ────────────────────────────────────────────────────────────
 
 /**
  * Admin operations on platform users.
@@ -118,8 +115,6 @@ class AdminUsersClient {
   }
 }
 
-// ─── Admin — Roles ────────────────────────────────────────────────────────────
-
 /**
  * Role management. Requires private key (`sk_`). No bearer token needed.
  */
@@ -157,8 +152,6 @@ class AdminRolesClient {
     return this.http.delete<null>(route`/admin/roles/${role_id}`, options)
   }
 }
-
-// ─── Admin — Grants ──────────────────────────────────────────────────────
 
 /**
  * Platform-level grant management.
@@ -200,8 +193,6 @@ class AdminGrantsClient {
     return this.http.delete<null>(route`/admin/resources/${resource}/grants`, options)
   }
 }
-
-// ─── Admin — OAuth clients ──────────────────────────────────────────────────
 
 /**
  * Manage the project's OAuth applications (clients) — the third-party apps
@@ -258,8 +249,6 @@ class AdminOAuthClientsClient {
   }
 }
 
-// ─── Admin ────────────────────────────────────────────────────────────────────
-
 /**
  * Admin namespace — platform management operations.
  *
@@ -283,12 +272,5 @@ export class AdminClient {
     this.roles = new AdminRolesClient(http)
     this.grants = new AdminGrantsClient(http)
     this.oauthClients = new AdminOAuthClientsClient(http)
-  }
-
-  /**
-   * Returns basic platform information (id, name, slug).
-   */
-  getPlatform(options?: RequestOptions): Promise<NulvlessResult<PlatformInfo>> {
-    return this.http.get<PlatformInfo>('/admin/platform', options)
   }
 }

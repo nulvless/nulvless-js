@@ -6,6 +6,18 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-10-20
+
+### Added
+
+- `auth.factors.enroll` accepts `phone` for `sms_otp`, so an SMS factor can use a number other than the user's. A user can hold several authenticator apps and SMS factors, up to 10 combined.
+- `auth.challenges.change` accepts `factor_id`, to choose which SMS factor receives the code.
+- `mfa_factors_limit_reached`, `mfa_phone_already_enrolled` and `mfa_phone_not_supported` in `AuthErrorCode`.
+
+### Changed
+
+- `auth.challenges.create` takes `{ type, factor_id }` instead of the method string: `create({ type: 'totp' })`. `factor_id` chooses which SMS factor receives the code.
+
 ## [0.1.5] - 2026-10-20
 
 ### Fixed

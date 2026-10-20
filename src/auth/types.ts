@@ -1,7 +1,5 @@
 import type { Phone, AuthOptions } from '../types'
 
-// ─── Sudo ─────────────────────────────────────────────────────────────────────
-
 /**
  * Single-use sudo nonce for step-up auth.
  *
@@ -20,8 +18,6 @@ export interface RevokeSessionParams extends Nonce {
   id: string
 }
 
-// ─── OAuth providers ──────────────────────────────────────────────────────────
-
 export type OAuthProvider =
   | 'google'
   | 'github'
@@ -34,8 +30,6 @@ export type OAuthProvider =
   | 'slack'
   | 'azure'
   | 'apple'
-
-// ─── User ─────────────────────────────────────────────────────────────────────
 
 export type UserGender = 'male' | 'female' | 'other' | 'prefer_not_to_say'
 
@@ -65,8 +59,6 @@ export interface User {
   created_at?: string
   updated_at?: string
 }
-
-// ─── Sign-up / Sign-in ────────────────────────────────────────────────────────
 
 /** At least one of `email`, `phone`, or `username` must be provided. */
 export interface SignUpParams {
@@ -118,8 +110,6 @@ export interface ResetPasswordParams {
   password: string
 }
 
-// ─── Challenge ────────────────────────────────────────────────────────────────
-
 export type TokenType = 'bearer'
 
 export type AssuranceLevel = 'aal1' | 'aal2' | 'aal3'
@@ -166,9 +156,22 @@ export interface ChangeChallengeParams {
   token: string
   /** MFA method to switch to. */
   type: MFAMethod
+  /**
+   * For `sms_otp`, which SMS factor receives the code — an `id` from
+   * `challenge.mfas`. Defaults to the oldest SMS factor.
+   */
+  factor_id?: string
 }
 
-// ─── Auth methods ─────────────────────────────────────────────────────────────
+export interface CreateChallengeParams {
+  /** MFA method to verify with. */
+  type: MFAMethod
+  /**
+   * For `sms_otp`, which SMS factor receives the code — an `id` from
+   * `factors.list()`. Defaults to the oldest SMS factor.
+   */
+  factor_id?: string
+}
 
 export type AuthFactorStatus = 'configured' | 'not_configured'
 
@@ -210,13 +213,16 @@ export interface EnableFactorParams {
 export interface EnrollFactorParams extends Nonce {
   type: MFAMethod
   name?: string
+  /**
+   * For `sms_otp`, the phone that receives the codes. Defaults to the user's
+   * phone. It may match the user's phone but not another SMS factor.
+   */
+  phone?: Phone
 }
 
 export interface UnenrollFactorParams extends Nonce {
   id: string
 }
-
-// ─── Identities ───────────────────────────────────────────────────────────────
 
 export type IdentityType = 'email' | 'phone' | 'oauth'
 
@@ -255,8 +261,6 @@ export interface SendOTPToUpdateEmailParams extends Nonce {
 export interface SendOTPToUpdatePhoneParams extends Nonce {
   phone: Phone
 }
-
-// ─── Grants & Roles ──────────────────────────────────────────────────────
 
 export type GrantStatus = 'granted' | 'invited' | 'requested' | 'blocked'
 
@@ -322,22 +326,10 @@ export interface LeaveGrantParams extends Nonce {
   id: string
 }
 
-// ─── Security ─────────────────────────────────────────────────────────────────
-
 export interface ChangePasswordParams extends Nonce {
   password: string
   new_password: string
 }
-
-// ─── Platform ─────────────────────────────────────────────────────────────────
-
-export interface PlatformInfo {
-  id: string
-  name: string
-  slug: string
-}
-
-// ─── Pagination ───────────────────────────────────────────────────────────────
 
 export type PaginationSort = 'asc' | 'desc'
 
@@ -412,8 +404,6 @@ export interface AdminUpdateUserParams {
   metadata?: Record<string, string | number | null>
 }
 
-// ─── Auth response ────────────────────────────────────────────────────────────
-
 /**
  * Returned by `signUp`, `signIn`, `verifyChallenge`, and `refreshToken`.
  *
@@ -438,8 +428,6 @@ export interface Authenticated {
     expires_in: number
   }
 }
-
-// ─── Lookup ───────────────────────────────────────────────────────────────────
 
 export type SignInMethod =
   | 'email_password'
@@ -474,8 +462,6 @@ export interface LookupResult {
   lookup: LookupMatch
   challenge?: Challenge
 }
-
-// ─── Session / verify ─────────────────────────────────────────────────────────
 
 export type SignOutScope = 'global' | 'local' | 'others'
 
@@ -530,8 +516,6 @@ export interface Session {
   expires_at: string
   sudo_expires_at?: string | null
 }
-
-// ─── OAuth Server (project as OIDC provider) ──────────────────────────────────
 
 export type OAuthAppType = 'public' | 'confidential'
 export type OAuthAppTokenEndpointAuthMethod = 'none' | 'client_secret_basic' | 'client_secret_post'

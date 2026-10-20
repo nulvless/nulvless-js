@@ -21,8 +21,6 @@ export interface SendSMSParams {
   params?: Record<string, unknown>
 }
 
-// ─── Templates ────────────────────────────────────────────────────────────────
-
 export type NotificationChannel = 'email' | 'sms' | 'webhook'
 export type TemplateLanguage = 'en-US' | 'pt-BR'
 

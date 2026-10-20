@@ -40,7 +40,6 @@ import { resolveBearer } from './base'
 
 /**
  * Auth methods accessible with both public (`pk_`) and private (`sk_`) keys.
- * Corresponds to endpoints decorated with `@SetPlatformGuardRoles([PUBLIC, PRIVATE])`.
  */
 export class AuthClient {
   /** MFA factor management — enroll, enable, disable, recovery codes. */
@@ -93,8 +92,6 @@ export class AuthClient {
     return this.session?.getValidToken() ?? null
   }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
   protected async persistSession(result: NulvlessResult<Authenticated>): Promise<NulvlessResult<Authenticated>> {
     if (!result.error && result.data.access_token && this.session) {
       await this.session.save(result.data)
@@ -102,8 +99,6 @@ export class AuthClient {
 
     return result
   }
-
-  // ─── Sign-up / Sign-in ─────────────────────────────────────────────────────
 
   /**
    * Creates a new user account.
@@ -289,8 +284,6 @@ export class AuthClient {
     })
   }
 
-  // ─── Challenge ─────────────────────────────────────────────────────────────
-
   /**
    * Looks up whether an identifier exists and which sign-in method applies.
    *
@@ -318,8 +311,6 @@ export class AuthClient {
   async verifyChallenge(params: VerifyChallengeParams, options?: RequestOptions): Promise<NulvlessResult<Authenticated>> {
     return this.challenges.verify(params, options)
   }
-
-  // ─── Account lifecycle ─────────────────────────────────────────────────────
 
   /**
    * Activates an account via the confirmation link sent to the user's email/phone.
@@ -357,8 +348,6 @@ export class AuthClient {
   resetPassword(params: ResetPasswordParams, options?: RequestOptions): Promise<NulvlessResult<null>> {
     return this.http.post<null>('/recover/reset-password', params, options)
   }
-
-  // ─── Session ───────────────────────────────────────────────────────────────
 
   /**
    * Validates the current session and optionally checks a grant.
@@ -513,8 +502,6 @@ export class AuthBrowserClient extends AuthClient {
     return this.emitter.on(event, handler)
   }
 
-  // ─── Session persistence override ─────────────────────────────────────────
-
   protected override async persistSession(result: NulvlessResult<Authenticated>): Promise<NulvlessResult<Authenticated>> {
     const out = await super.persistSession(result)
 
@@ -531,8 +518,6 @@ export class AuthBrowserClient extends AuthClient {
 
     return out
   }
-
-  // ─── Active session helpers ────────────────────────────────────────────────
 
   /**
    * Returns the session currently stored in storage, or `null` if there is none.
@@ -566,8 +551,6 @@ export class AuthBrowserClient extends AuthClient {
       await this.session?.save(data)
     }
   }
-
-  // ─── Multi-account ─────────────────────────────────────────────────────────
 
   /**
    * Adds an account to the accounts store without switching the active session.
@@ -658,8 +641,6 @@ export class AuthBrowserClient extends AuthClient {
 
     await this.session?.clear()
   }
-
-  // ─── signOut override ──────────────────────────────────────────────────────
 
   override async signOut(scope?: SignOutScope, options?: RequestOptions): Promise<NulvlessResult<null>> {
     // Capture userId before the session is cleared

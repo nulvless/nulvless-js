@@ -1,8 +1,6 @@
 import type { ErrorCode } from './error-codes'
 import type { NulvlessStorage } from './storage/types'
 
-// ─── Core ─────────────────────────────────────────────────────────────────────
-
 export type Language = 'en-US' | 'pt-BR'
 
 export interface Phone {

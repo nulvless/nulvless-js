@@ -6,7 +6,6 @@ import { toStoredSession } from '../session/stored'
 export interface AccountEntry {
   userId: string
   access_token: string
-  /** Seconds remaining until the token expires. May be negative if already expired. */
   expires_in: number
   refresh_token?: string
   user?: User

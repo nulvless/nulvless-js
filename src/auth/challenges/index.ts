@@ -5,7 +5,7 @@ import type {
   Authenticated,
   Challenge,
   ChangeChallengeParams,
-  MFAMethod,
+  CreateChallengeParams,
   VerifyChallengeParams,
 } from '../types'
 import { AuthSubClient } from '../base'
@@ -35,17 +35,22 @@ export class ChallengesClient extends AuthSubClient {
    * Requires an authenticated session. Prompt the user for the code, then call
    * `verify({ token, code })`.
    *
+   * A `totp` challenge accepts a code from any of the user's authenticator
+   * apps. For `sms_otp`, pass `factor_id` to pick which phone receives it.
+   *
    * @example
-   * const { data } = await nulvless.auth.challenges.create('totp')
+   * const { data } = await nulvless.auth.challenges.create({ type: 'totp' })
+   * const { data: sms } = await nulvless.auth.challenges.create({ type: 'sms_otp', factor_id })
    */
   async create(
-    targetType: MFAMethod,
+    params: CreateChallengeParams,
     options?: RequestOptions,
   ): Promise<NulvlessResult<{ challenge: Challenge }>> {
     const auth = await this.bearer(options)
     if (!auth.ok) return { data: null, error: auth.error }
-    return this.http.post<{ challenge: Challenge }>(route`/challenges/${targetType}`, undefined, {
+    return this.http.post<{ challenge: Challenge }>(route`/challenges/${params.type}`, undefined, {
       ...options,
+      ...(params.factor_id ? { query: { factor_id: params.factor_id } } : {}),
       headers: { ...options?.headers, ...auth.headers },
     })
   }
@@ -70,7 +75,9 @@ export class ChallengesClient extends AuthSubClient {
     return this.http.patch<{ challenge: Challenge }>(
       route`/challenges/${params.type}`,
       { token: params.token },
-      options,
+      params.factor_id
+        ? { ...options, query: { factor_id: params.factor_id } }
+        : options,
     )
   }
 

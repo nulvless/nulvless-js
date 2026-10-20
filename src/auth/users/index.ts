@@ -26,8 +26,6 @@ import { AuthSubClient } from '../base'
  */
 export class UsersClient extends AuthSubClient {
 
-  // ─── Profile ────────────────────────────────────────────────────────────────
-
   /**
    * Returns the authenticated user's full profile.
    */
@@ -56,8 +54,6 @@ export class UsersClient extends AuthSubClient {
       headers: { ...options?.headers, ...auth.headers },
     })
   }
-
-  // ─── Identities ─────────────────────────────────────────────────────────────
 
   /**
    * Lists all identities (email, phone, OAuth) linked to the authenticated user.
@@ -166,8 +162,6 @@ export class UsersClient extends AuthSubClient {
       headers: { ...options?.headers, ...auth.headers },
     })
   }
-
-  // ─── Credential updates ──────────────────────────────────────────────────────
 
   /**
    * Sends an OTP to the new email address to initiate an email change.

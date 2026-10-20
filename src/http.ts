@@ -245,7 +245,6 @@ export class HttpClient {
           }
         }
 
-        // Sudo required: notify the caller so it can prompt the user.
         if (response.status === 403 && code === 'protected_action_denied') {
           this.onSudoRequired?.()
         }

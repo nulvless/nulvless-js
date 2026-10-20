@@ -70,6 +70,10 @@ export class FactorsClient extends AuthSubClient {
    * the factor on the user's device.
    *
    * For TOTP: use `secret` for manual entry or `url` to generate a QR code.
+   * For SMS: pass `phone` to send the codes to a number other than the user's.
+   *
+   * A user holds up to 10 authenticator apps and SMS factors combined, and one
+   * email factor and one set of recovery codes.
    *
    * After the user configures their device, call `enable` with the `token` and
    * the first OTP code to activate the factor.
@@ -85,8 +89,9 @@ export class FactorsClient extends AuthSubClient {
   async enroll(params: EnrollFactorParams, options?: RequestOptions): Promise<NulvlessResult<FactorEnrollment>> {
     const auth = await this.bearer(options)
     if (!auth.ok) return { data: null, error: auth.error }
-    const { nonce, type, name } = params
-    return this.http.post<FactorEnrollment>(route`/factors/${type}`, name ? { name } : {}, {
+    const { nonce, type, name, phone } = params
+    const body = { ...(name ? { name } : {}), ...(phone ? { phone } : {}) }
+    return this.http.post<FactorEnrollment>(route`/factors/${type}`, body, {
       ...options,
       nonce,
       headers: { ...options?.headers, ...auth.headers },
