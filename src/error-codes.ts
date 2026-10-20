@@ -1,0 +1,79 @@
+export type SdkErrorCode =
+  | 'no_session'
+  | 'request_timeout'
+  | 'network_error'
+  | 'invalid_path'
+  | 'unknown_error'
+
+export type GatewayErrorCode =
+  | 'rate_limit_exceeded'
+  | 'service_not_enabled'
+  | 'service_unavailable'
+  | 'project_not_ready'
+  | 'project_paused'
+  | 'project_unavailable'
+  | 'bad_gateway'
+  | 'upstream_timeout'
+  | 'idle_timeout'
+  | 'deadline_exceeded'
+  | 'internal_error'
+
+export type AuthErrorCode =
+  | 'unauthorized'
+  | 'not_allowed'
+  | 'unavailable'
+  | 'invalid_credentials'
+  | 'mfa_required'
+  | 'refresh_token_not_found'
+  | 'refresh_token_already_used'
+  | 'refresh_token_not_issued_here'
+  | 'registration_closed'
+  | 'user_not_confirmed'
+  | 'user_already_confirmed'
+  | 'user_banned'
+  | 'user_already_banned'
+  | 'user_not_banned'
+  | 'user_missing_email'
+  | 'user_missing_phone'
+  | 'email_already_exists'
+  | 'phone_already_exists'
+  | 'username_already_exists'
+  | 'password_weak'
+  | 'password_leaked'
+  | 'captcha_required'
+  | 'captcha_verification_failed'
+  | 'protected_action_denied'
+  | 'action_verification_failed'
+  | 'forbidden_resource_access'
+  | 'forbidden_access_waiting_accept'
+  | 'forbidden_special_role_required'
+  | 'cannot_leave_owner_access'
+  | 'permission_already_granted'
+  | 'bad_oauth_state'
+  | 'bad_oauth_callback'
+  | 'redirect_uri_mismatch'
+  | 'provider_unavailable'
+  | 'provider_unsupported_method'
+  | 'oauth_email_missing'
+  | 'oauth_email_not_verified'
+  | 'oauth_account_link_required'
+  | 'rate_limit_exceeded'
+
+export type CommsErrorCode = 'unauthorized_platform' | 'rate_limit_exceeded'
+
+export type EdgeFunctionErrorCode =
+  | 'function_not_found'
+  | 'function_unavailable'
+  | 'boot_failed'
+  | 'execution_timeout'
+  | 'cpu_time_limit_exceeded'
+  | 'memory_limit_exceeded'
+  | 'resource_unavailable'
+  | 'internal_server_error'
+
+export type ErrorCode =
+  | SdkErrorCode
+  | GatewayErrorCode
+  | AuthErrorCode
+  | CommsErrorCode
+  | (string & {})

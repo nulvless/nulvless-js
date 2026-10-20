@@ -21,6 +21,7 @@ export { SessionManager } from './session/manager'
 export type { NulvlessStorage } from './storage/types'
 export type { StoredSession } from './session/types'
 export type * from './types'
+export type * from './error-codes'
 export type * from './auth/types'
 export type * from './comms/types'
 

@@ -1,3 +1,4 @@
+import type { ErrorCode } from './error-codes'
 import type { NulvlessStorage } from './storage/types'
 
 // ─── Core ─────────────────────────────────────────────────────────────────────
@@ -12,7 +13,7 @@ export interface Phone {
 }
 
 export interface NulvlessError {
-  code: string
+  code: ErrorCode
   message: string | string[]
   status_code: number
 }

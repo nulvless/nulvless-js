@@ -1,3 +1,5 @@
+import type { ErrorCode } from '../error-codes'
+
 /**
  * Thrown when `throwErrors: true` is set and the API returns an error response.
  *
@@ -16,10 +18,10 @@
  * }
  */
 export class NulvlessException extends Error {
-  readonly code: string
+  readonly code: ErrorCode
   readonly status_code: number
 
-  constructor(message: string | string[], code: string, status_code: number) {
+  constructor(message: string | string[], code: ErrorCode, status_code: number) {
     super(Array.isArray(message) ? message.join(', ') : message)
     this.name = 'NulvlessException'
     this.code = code
