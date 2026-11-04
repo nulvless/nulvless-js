@@ -532,6 +532,7 @@ export interface OAuthApp {
   client_name?: string
   client_uri?: string
   logo_uri?: string
+  default_max_age?: number | null
   /** Only present right after create/regenerate (confidential apps). */
   client_secret?: string
   created_at?: string
@@ -546,6 +547,7 @@ export interface RegisterOAuthAppParams {
   client_name?: string
   client_uri?: string
   logo_uri?: string
+  default_max_age?: number | null
 }
 
 /** `client_type` is immutable; the secret rotates via `regenerateSecret`. */
@@ -556,6 +558,7 @@ export interface UpdateOAuthAppParams {
   client_name?: string
   client_uri?: string
   logo_uri?: string
+  default_max_age?: number | null
 }
 
 /** Query parameters for the `/oauth/authorize` redirect (PKCE required, S256). */

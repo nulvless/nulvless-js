@@ -12,6 +12,7 @@ to [Semantic Versioning](https://semver.org/).
 
 - `auth.oauth.authorize` accepts the OpenID Connect `prompt` and `max_age` parameters. `prompt: 'login'` or a `max_age` ask the user to confirm their identity again before the app gets access.
 - `OAuthAuthorization` returns the `prompt` and `max_age` the app sent.
+- `OAuthApp`, `RegisterOAuthAppParams` and `UpdateOAuthAppParams` carry `default_max_age`, the OpenID Connect `max_age` a client applies when the request sends none.
 - `login_required` in the error codes: approving a consent fails with it until the user confirms their identity.
 
 ## [0.1.6] - 2026-10-20
