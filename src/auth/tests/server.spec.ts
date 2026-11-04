@@ -117,6 +117,20 @@ describe('auth.oauth.authorize', () => {
     })
   })
 
+  it('asks for a fresh sign-in with prompt and max_age', async () => {
+    mockFetch(reply({ body: discovery }))
+
+    const result = await createServerClient(url, 'sk_test').auth.oauth.authorize({
+      ...params,
+      prompt: 'login',
+      max_age: 0,
+    })
+    const authorizeUrl = new URL(result.data!.url)
+
+    expect(authorizeUrl.searchParams.get('prompt')).toBe('login')
+    expect(authorizeUrl.searchParams.get('max_age')).toBe('0')
+  })
+
   it('redirects the browser to the authorization URL', async () => {
     mockFetch(reply({ body: discovery }))
     const location = { href: '' }

@@ -46,6 +46,7 @@ export type AuthErrorCode =
   | 'captcha_required'
   | 'captcha_verification_failed'
   | 'protected_action_denied'
+  | 'login_required'
   | 'action_verification_failed'
   | 'forbidden_resource_access'
   | 'forbidden_access_waiting_accept'

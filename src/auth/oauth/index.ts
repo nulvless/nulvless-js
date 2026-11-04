@@ -111,6 +111,8 @@ export class OAuthClient extends AuthSubClient {
       state: params.state,
       resource: params.resource,
       nonce: params.nonce,
+      prompt: params.prompt,
+      max_age: params.max_age === undefined ? undefined : String(params.max_age),
     }
     for (const [key, value] of Object.entries(query)) {
       if (value !== undefined) url.searchParams.set(key, value)

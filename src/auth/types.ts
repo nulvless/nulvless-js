@@ -569,7 +569,11 @@ export interface OAuthAuthorizeParams {
   state?: string
   resource?: string
   nonce?: string
+  prompt?: OAuthPrompt | `${OAuthPrompt} ${OAuthPrompt}`
+  max_age?: number
 }
+
+export type OAuthPrompt = 'none' | 'login' | 'consent' | 'select_account'
 
 export interface ExchangeOAuthCodeParams {
   code: string
@@ -600,6 +604,8 @@ export interface OAuthTokenResponse {
 export interface OAuthAuthorization {
   client: { id: string; name?: string; logo_uri?: string; uri?: string }
   scope: string[]
+  prompt: OAuthPrompt[]
+  max_age: number | null
   auto_approved: boolean
   redirect?: { uri: string }
 }
