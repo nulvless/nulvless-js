@@ -24,22 +24,27 @@ export interface SendSMSParams {
 export type NotificationChannel = 'email' | 'sms' | 'webhook'
 export type TemplateLanguage = 'en-US' | 'pt-BR'
 
+export interface TemplateTranslation {
+  language: TemplateLanguage
+  subject?: string
+  content?: string
+  last_submission?: string
+  created_at?: string
+  updated_at?: string
+}
+
 export interface Template {
-  id: string
-  name?: string
-  description?: string
   slug: string
   channel: NotificationChannel
-  subject?: string
-  content: string
+  name?: string
+  description?: string
   url?: string
   config?: Record<string, unknown>
-  language: TemplateLanguage
-  last_submission?: string
-  /** `true` when this is a platform-level common template, not a custom one. */
   common: boolean
-  created_at: string
-  updated_at: string
+  customized: boolean
+  translations: TemplateTranslation[]
+  created_at?: string
+  updated_at?: string
 }
 
 export interface CreateTemplateParams {
@@ -59,10 +64,13 @@ export interface CreateTemplateParams {
 export interface UpdateTemplateParams {
   name?: string
   description?: string
-  subject?: string
-  content?: string
   url?: string
   config?: Record<string, unknown>
+}
+
+export interface TranslationParams {
+  subject?: string
+  content: string
 }
 
 export interface TemplateFilters {
@@ -70,7 +78,7 @@ export interface TemplateFilters {
   page_size?: number
   sort?: 'asc' | 'desc'
   channel?: NotificationChannel
-  language?: TemplateLanguage
+  authored?: boolean
 }
 
 export interface PaginatedTemplates {

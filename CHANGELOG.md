@@ -6,6 +6,31 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-05
+
+A template is now one record per channel and slug, holding one translation per language.
+
+### Added
+
+- `comms.templates.putTranslation(channel, slug, language, { subject, content })` creates or replaces the translation of one language, and creates the template when it does not exist.
+- `comms.templates.deleteTranslation(channel, slug, language)` deletes one language. Deleting the last one deletes the template.
+- `Template.translations` lists every language with its `subject`, `content`, `last_submission`, `created_at` and `updated_at`. `TemplateTranslation` and `TranslationParams` are exported.
+- `Template.customized` is `false` for a platform default the project never changed.
+- `TemplateFilters.authored` leaves customized platform templates out of `comms.templates.list`.
+
+### Changed
+
+- `comms.templates.get(channel, slug)` returns the template with every translation. It no longer takes a language.
+- `comms.templates.update(channel, slug, params)` changes only `name`, `description`, `url` and `config`. Change a subject or content with `putTranslation`.
+- `comms.templates.delete(channel, slug)` deletes the template in every language. It no longer takes a language; use `deleteTranslation` for one.
+- `comms.templates.list` returns one item per template. Its translations come without `content`.
+- `comms.templates.create` fails when the channel already has the slug, instead of adding a language.
+
+### Removed
+
+- `Template.id`, `Template.language`, `Template.subject`, `Template.content` and `Template.last_submission`. They live on each translation now.
+- `TemplateFilters.language`.
+
 ## [0.1.7] - 2026-11-04
 
 ### Added

@@ -8,12 +8,9 @@ import type {
   Template,
   TemplateFilters,
   TemplateLanguage,
+  TranslationParams,
   UpdateTemplateParams,
 } from '../types'
-
-function templatePath(channel: NotificationChannel, slug: string, language?: TemplateLanguage): string {
-  return language ? route`/templates/${channel}/${slug}/${language}` : route`/templates/${channel}/${slug}`
-}
 
 /**
  * Template management for the notifications service.
@@ -44,57 +41,74 @@ export class TemplatesClient {
   }
 
   /**
-   * Updates an existing template.
-   *
-   * `language` defaults to `'en-US'` when omitted.
+   * Updates the name, description, URL or config of a template.
    *
    * @example
-   * await nulvless.comms.templates.update('email', 'welcome', { subject: 'Welcome aboard!' })
+   * await nulvless.comms.templates.update('email', 'welcome', { name: 'Welcome' })
    */
   update(
     channel: NotificationChannel,
     slug: string,
     params: UpdateTemplateParams,
-    language?: TemplateLanguage,
     options?: RequestOptions,
   ): Promise<NulvlessResult<Template>> {
-    return this.http.patch<Template>(templatePath(channel, slug, language), params, options)
+    return this.http.patch<Template>(route`/templates/${channel}/${slug}`, params, options)
   }
 
   /**
-   * Deletes a template.
+   * Creates or replaces a template translation.
    *
-   * `language` defaults to `'en-US'` when omitted.
+   * @example
+   * await nulvless.comms.templates.putTranslation('email', 'welcome', 'pt-BR', { subject: 'Olá!', content: '<h1>Olá {{name}}</h1>' })
    */
-  delete(
+  putTranslation(
     channel: NotificationChannel,
     slug: string,
-    language?: TemplateLanguage,
+    language: TemplateLanguage,
+    params: TranslationParams,
     options?: RequestOptions,
   ): Promise<NulvlessResult<Template>> {
-    return this.http.delete<Template>(templatePath(channel, slug, language), options)
+    return this.http.put<Template>(route`/templates/${channel}/${slug}/${language}`, params, options)
+  }
+
+  /**
+   * Deletes a template translation.
+   *
+   * @example
+   * await nulvless.comms.templates.deleteTranslation('email', 'welcome', 'pt-BR')
+   */
+  deleteTranslation(
+    channel: NotificationChannel,
+    slug: string,
+    language: TemplateLanguage,
+    options?: RequestOptions,
+  ): Promise<NulvlessResult<Template>> {
+    return this.http.delete<Template>(route`/templates/${channel}/${slug}/${language}`, options)
+  }
+
+  /**
+   * Deletes a template and its translations.
+   *
+   * @example
+   * await nulvless.comms.templates.delete('email', 'welcome')
+   */
+  delete(channel: NotificationChannel, slug: string, options?: RequestOptions): Promise<NulvlessResult<Template>> {
+    return this.http.delete<Template>(route`/templates/${channel}/${slug}`, options)
   }
 
   /**
    * Returns a template by channel and slug, falling back to the common template
    * if no custom one exists.
    *
-   * `language` defaults to `'en-US'` when omitted.
-   *
-   * The response includes `common: true` when the returned template is the
-   * platform-level fallback rather than a custom override.
+   * @example
+   * const { data } = await nulvless.comms.templates.get('email', 'welcome')
    */
-  get(
-    channel: NotificationChannel,
-    slug: string,
-    language?: TemplateLanguage,
-    options?: RequestOptions,
-  ): Promise<NulvlessResult<Template>> {
-    return this.http.get<Template>(templatePath(channel, slug, language), options)
+  get(channel: NotificationChannel, slug: string, options?: RequestOptions): Promise<NulvlessResult<Template>> {
+    return this.http.get<Template>(route`/templates/${channel}/${slug}`, options)
   }
 
   /**
-   * Returns a paginated list of templates, optionally filtered by channel and language.
+   * Returns a paginated list of templates, optionally filtered by channel.
    *
    * @example
    * const { data } = await nulvless.comms.templates.list({ channel: 'email', page_size: 20 })
@@ -107,7 +121,7 @@ export class TemplatesClient {
         ...(filters?.page_size !== undefined ? { page_size: filters.page_size } : {}),
         ...(filters?.sort ? { sort: filters.sort } : {}),
         ...(filters?.channel ? { channel: filters.channel } : {}),
-        ...(filters?.language ? { language: filters.language } : {}),
+        ...(filters?.authored ? { authored: filters.authored } : {}),
       },
     })
   }

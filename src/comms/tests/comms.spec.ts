@@ -31,24 +31,21 @@ describe('comms', () => {
     ['templates.create', c => c.comms.templates.create({ slug: 'welcome', channel: 'email', language: 'en-US', content: 'Hi' }), {
       method: 'POST', path: '/templates', body: { slug: 'welcome', channel: 'email', language: 'en-US', content: 'Hi' },
     }],
-    ['templates.update', c => c.comms.templates.update('email', 'welcome', { subject: 'Hello' }), {
-      method: 'PATCH', path: '/templates/email/welcome', body: { subject: 'Hello' },
+    ['templates.get', c => c.comms.templates.get('webhook', 'order'), { method: 'GET', path: '/templates/webhook/order' }],
+    ['templates.update', c => c.comms.templates.update('email', 'welcome', { name: 'Welcome' }), {
+      method: 'PATCH', path: '/templates/email/welcome', body: { name: 'Welcome' },
     }],
-    ['templates.update in a language', c => c.comms.templates.update('email', 'welcome', { subject: 'Olá' }, 'pt-BR'), {
-      method: 'PATCH', path: '/templates/email/welcome/pt-BR', body: { subject: 'Olá' },
+    ['templates.putTranslation', c => c.comms.templates.putTranslation('email', 'welcome', 'pt-BR', { subject: 'Olá', content: 'Oi' }), {
+      method: 'PUT', path: '/templates/email/welcome/pt-BR', body: { subject: 'Olá', content: 'Oi' },
     }],
-    ['templates.delete', c => c.comms.templates.delete('sms', 'code'), { method: 'DELETE', path: '/templates/sms/code' }],
-    ['templates.delete in a language', c => c.comms.templates.delete('sms', 'code', 'pt-BR'), {
+    ['templates.deleteTranslation', c => c.comms.templates.deleteTranslation('sms', 'code', 'pt-BR'), {
       method: 'DELETE', path: '/templates/sms/code/pt-BR',
     }],
-    ['templates.get', c => c.comms.templates.get('webhook', 'order'), { method: 'GET', path: '/templates/webhook/order' }],
-    ['templates.get in a language', c => c.comms.templates.get('webhook', 'order', 'en-US'), {
-      method: 'GET', path: '/templates/webhook/order/en-US',
-    }],
-    ['templates.list', c => c.comms.templates.list({ page: 0, page_size: 20, sort: 'desc', channel: 'email', language: 'pt-BR' }), {
+    ['templates.delete', c => c.comms.templates.delete('sms', 'code'), { method: 'DELETE', path: '/templates/sms/code' }],
+    ['templates.list', c => c.comms.templates.list({ page: 0, page_size: 20, sort: 'desc', channel: 'email', authored: true }), {
       method: 'GET',
       path: '/templates',
-      query: { page: '0', page_size: '20', sort: 'desc', channel: 'email', language: 'pt-BR' },
+      query: { page: '0', page_size: '20', sort: 'desc', channel: 'email', authored: 'true' },
     }],
     ['templates.list without filters', c => c.comms.templates.list(), { method: 'GET', path: '/templates' }],
   ])('%s', async (_name, call, expected) => {
