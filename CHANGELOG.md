@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-07
+
+### Added
+
+- `pt-PT` is available as a language for API requests and communication templates.
+
 ## [0.2.1] - 2026-11-05
 
 ### Added
