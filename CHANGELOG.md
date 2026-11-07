@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-05
+
+### Added
+
+- `Session.oauth_client_id` names the OAuth app that opened the session, such as the Nulvless CLI. It is empty for sessions opened by signing in to the project directly.
+
 ## [0.2.0] - 2026-11-05
 
 A template is now one record per channel and slug, holding one translation per language.

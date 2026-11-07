@@ -515,6 +515,7 @@ export interface Session {
   updated_at: string
   expires_at: string
   sudo_expires_at?: string | null
+  oauth_client_id?: string | null
 }
 
 export type OAuthAppType = 'public' | 'confidential'
