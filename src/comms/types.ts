@@ -22,7 +22,7 @@ export interface SendSMSParams {
 }
 
 export type NotificationChannel = 'email' | 'sms' | 'webhook'
-export type TemplateLanguage = 'en-US' | 'pt-BR' | 'pt-PT'
+export type TemplateLanguage = Language
 
 export interface TemplateTranslation {
   language: TemplateLanguage

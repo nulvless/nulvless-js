@@ -6,6 +6,16 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-11
+
+### Added
+
+- `es-419`, `es-ES`, `es-AR`, `fr-FR`, `fr-CA`, `de-DE` and `ko-KR` are available as languages for API requests and communication templates.
+
+### Changed
+
+- `Language` and `TemplateLanguage` accept the new languages. `TemplateLanguage` is now the same type as `Language`. Code that handles every value of either type, such as an exhaustive `switch`, has to handle the new ones.
+
 ## [0.2.2] - 2026-11-07
 
 ### Added

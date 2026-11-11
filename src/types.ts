@@ -1,7 +1,17 @@
 import type { ErrorCode } from './error-codes'
 import type { NulvlessStorage } from './storage/types'
 
-export type Language = 'en-US' | 'pt-BR' | 'pt-PT'
+export type Language =
+  | 'en-US'
+  | 'pt-BR'
+  | 'pt-PT'
+  | 'es-419'
+  | 'es-ES'
+  | 'es-AR'
+  | 'fr-FR'
+  | 'fr-CA'
+  | 'de-DE'
+  | 'ko-KR'
 
 export interface Phone {
   /** Country dial code — e.g. "+55" */
