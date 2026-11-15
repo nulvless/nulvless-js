@@ -6,6 +6,16 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-15
+
+### Added
+
+- `es-MX` (Mexico) and `es-CO` (Colombia) are available as languages for API requests and communication templates.
+
+### Removed
+
+- `es-419` is no longer a language. Templates saved in `es-419` are now `es-MX`. Use `es-MX` or `es-CO` instead; other Spanish variants the API does not support fall back to `es-MX`.
+
 ## [0.3.0] - 2026-11-11
 
 ### Added
