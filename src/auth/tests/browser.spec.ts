@@ -231,6 +231,36 @@ describe('AuthBrowserClient', () => {
       expect(listener).toHaveBeenCalledWith({ userId: 'user-1' })
     })
 
+    it('clears this session too when signing out everywhere', async () => {
+      const { lastRequest } = mockFetch(reply({ status: 204, contentType: null }))
+      const client = makeClient()
+      await client.auth.set(signedIn())
+      const listener = jest.fn()
+      client.auth.on('signed-out', listener)
+
+      await client.auth.signOut('global')
+
+      expect(lastRequest().url.searchParams.get('scope')).toBe('global')
+      expect(await client.auth.get()).toBeNull()
+      expect(listener).toHaveBeenCalledWith({ userId: 'user-1' })
+    })
+
+    it('keeps this session and the account when signing out other devices', async () => {
+      const { lastRequest } = mockFetch(reply({ status: 204, contentType: null }))
+      const client = makeClient({ multiUser: true })
+      await client.auth.set(signedIn())
+      await client.auth.add(signedIn())
+      const listener = jest.fn()
+      client.auth.on('signed-out', listener)
+
+      await client.auth.signOut('others')
+
+      expect(lastRequest().url.searchParams.get('scope')).toBe('others')
+      expect(await client.auth.get()).toEqual(expect.objectContaining({ access_token: signedIn().access_token }))
+      expect((await client.auth.list()).map(account => account.userId)).toEqual(['user-1'])
+      expect(listener).not.toHaveBeenCalled()
+    })
+
     it('finds the user id in the token when the session has no user', async () => {
       mockFetch(reply({ status: 204, contentType: null }))
       const client = makeClient()

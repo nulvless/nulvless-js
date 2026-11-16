@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-16
+
+### Fixed
+
+- `auth.signOut('others')` in the browser no longer signs out the current device. It ends every other session and keeps this one stored, without emitting `signed-out` or removing the account from the list.
+
 ## [0.4.0] - 2026-11-15
 
 ### Added

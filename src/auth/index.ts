@@ -41,6 +41,10 @@ import { resolveBearer } from './base'
 /**
  * Auth methods accessible with both public (`pk_`) and private (`sk_`) keys.
  */
+function endsCurrentSession(scope?: SignOutScope) {
+  return scope !== 'others'
+}
+
 export class AuthClient {
   /** MFA factor management — enroll, enable, disable, recovery codes. */
   readonly factors: FactorsClient
@@ -390,7 +394,8 @@ export class AuthClient {
   }
 
   /**
-   * Signs out the user and clears the stored session.
+   * Signs out the user. The stored session is cleared unless the scope is `'others'`,
+   * which keeps the current device signed in.
    *
    * - `'local'` (default) — invalidates only the current session.
    * - `'global'` — invalidates all sessions across all devices.
@@ -409,7 +414,7 @@ export class AuthClient {
       ...(scope ? { query: { scope } } : {}),
     })
 
-    if (!result.error) {
+    if (!result.error && endsCurrentSession(scope)) {
       await this.session?.clear()
     }
 
@@ -651,7 +656,7 @@ export class AuthBrowserClient extends AuthClient {
 
     const result = await super.signOut(scope, options)
 
-    if (!result.error) {
+    if (!result.error && endsCurrentSession(scope)) {
       if (this.multiUser && userId) {
         await this.accountsManager.remove(userId)
       }
